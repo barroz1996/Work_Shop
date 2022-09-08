@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Market Website</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              My Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+              <li><a class="dropdown-item" href="/cart">My Cart</a></li>
+              <li><a class="dropdown-item" href="/my_stores">My Stores</a></li>
+              <li><a class="dropdown-item" href="/purchases">My Purchases</a></li>
+                <li><a class="dropdown-item" href="/my_bids">My Bids</a></li>
+            </ul>
+          </li>
+        {% if request.user.username is None %}
+            <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/signup">Signup</a>
+          </li>
+        {% endif %}
+        {% if request.user.username is not None %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        {% endif %}
+          {% if request.user.is_authenticated %}
+            {% if request.user.is_staff %}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin Panel</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        </ul>
+
+
+      <li class="nav-item dropdown notification-section">
+                    <a href="#" class="notification dropdown-toggle" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="true">
+                        <span><i class='fa fa-bell'></i></span>
+                        <span class="badge" id="notification-badge">0</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="notifications-dropdown"
+                        data-popper-placement="bottom-end"
+                        style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(-70px, 42px, 0px);">
+
+                        {% for i in notifications %}
+                        <li class="dropdown-item">{{ i.message }}</li>
+                        <hr class="dropdown-divider">
+                        {% endfor %}
+                        {% for n in saved_notifications %}
+                        <li class="dropdown-item">{{ n.getNotificationText }}</li>
+                        <hr class="dropdown-divider">
+                        {% endfor %}
+                    </ul>
+                </li>
+
+
+        <form class="d-flex" action='/search/'>
+          <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
